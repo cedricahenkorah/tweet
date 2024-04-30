@@ -45,7 +45,7 @@ class TweetPolicy
      */
     public function delete(User $user, Tweet $tweet): bool
     {
-        //
+        return $this->update($user, $tweet);
     }
 
     /**

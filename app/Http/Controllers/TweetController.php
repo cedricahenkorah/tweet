@@ -81,8 +81,12 @@ class TweetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tweet $tweet)
+    public function destroy(Tweet $tweet): RedirectResponse
     {
-        //
+        Gate::authorize('delete', $tweet);
+
+        $tweet->delete();
+
+        return redirect(route('tweets.index'));
     }
 }
