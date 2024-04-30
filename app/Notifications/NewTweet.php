@@ -40,7 +40,7 @@ class NewTweet extends Notification
             ->subject("New Tweet from {$this->tweet->user->name}")
             ->greeting("New Tweet from {$this->tweet->user->name}")
             ->line(Str::limit($this->tweet->message, 50))
-            ->action('Go to Twwet', url('/'))
+            ->action('Go to Tweet', url('/'))
             ->line('Thank you for using Tweet!');
     }
 
