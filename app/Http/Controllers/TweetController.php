@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tweet;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class TweetController extends Controller
@@ -53,17 +53,29 @@ class TweetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tweet $tweet)
+    public function edit(Tweet $tweet): View
     {
-        //
+        Gate::authorize('update', $tweet);
+
+        return view('tweets.edit', [
+            'tweet' => $tweet
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tweet $tweet)
+    public function update(Request $request, Tweet $tweet): RedirectResponse
     {
-        //
+        Gate::authorize('update', $tweet);
+
+        $validted = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        $tweet->update($validted);
+
+        return redirect(route('tweets.index'));
     }
 
     /**
